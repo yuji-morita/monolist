@@ -11,9 +11,9 @@ class OwnershipsController < ApplicationController
     # itemsテーブルに存在しない場合はAmazonのデータを登録する。
     if @item.new_record?
       begin
-        # TODO 商品情報の取得 Amazon::Ecs.item_lookupを用いてください
-        response = {}
-      rescue Amazon::RequestError => e
+      　response = Amazon::Ecs.item_lookup(asins.join(','),:country => 'jp').items.each do |item|
+          puts item.get('ItemAttributes')
+        end
         return render :js => "alert('#{e.message}')"
       end
 
@@ -25,6 +25,7 @@ class OwnershipsController < ApplicationController
       @item.detail_page_url = amazon_item.get("DetailPageURL")
       @item.raw_info        = amazon_item.get_hash
       @item.save!
+      binding.pry
     end
 
     # TODO ユーザにwant or haveを設定する

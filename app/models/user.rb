@@ -36,23 +36,25 @@ class User < ActiveRecord::Base
 
   ## TODO 実装
   def have(item)
+    haves.find_or_create_by(item_id: item.id, type: "Have")
   end
 
   def unhave(item)
+    haves.find_by(item_id: item.id, type: "Have").destroy
   end
 
   def have?(item)
+    have_items.include?(item)
   end
   
  # itemをwantする
   def want(item)
-      want_items.find_or_create_by(item_id: item.id)
+      wants.find_or_create_by(item_id: item.id, type: "Want")
   end
     
   # itemのwantを解除する
   def unwant(item)
-      want_item = want_items.find_by(item_id: item.id)
-      want_item.destroy if want_item
+      wants.find_by(item_id: item.id, type: "Want")
   end
     
   # あるitemをwantしているかどうか

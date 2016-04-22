@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
     
   # itemのwantを解除する
   def unwant(item)
-      wants.find_by(item_id: item.id, type: "Want")
+      wants.find_by(item_id: item.id, type: "Want").destroy
   end
     
   # あるitemをwantしているかどうか

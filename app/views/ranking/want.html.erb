@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="container-inner inner-default clearfix">
+    <h1>Want Ranking</h1>
+    <% @want_ranks.each_with_index do |want_rank, count| %>
+        <% item = Item.find(want_rank[0]) %>
+        <div class="item-box">
+            <h3><%= count+1 %>位 (<%= want_rank[1] %> wants)</h3>
+            <div class="image">
+              <div class="img-wrap">
+                <% if item.large_image.present? %>
+                    <%= image_tag(item.large_image , alt: item.title) %>
+                <% else %>
+                  <%= image_tag("no-image.png" , alt: item.title) %>
+                <% end %>
+              </div>
+            </div>
+            <div class="detail">
+                <p class="title"><%= item.title %></p>
+            </div>
+            <%= render 'items/action' , item: item if logged_in? %>
+          </div>
+        <% end %>
+    </div>
+</div>
